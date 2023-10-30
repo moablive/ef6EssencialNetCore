@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ef6EssencialNetCore.props" />
+</Project>
