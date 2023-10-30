@@ -1,7 +1,10 @@
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace ef6EssencialNetCore.Controllers
 {
@@ -19,74 +22,104 @@ namespace ef6EssencialNetCore.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
-            var produtos = _context.Produtos.AsNoTracking().ToList();
-
-            if (produtos is null) 
+            try
             {
-                return NotFound("Produtos Não Encontrados");
-            }
+                var produtos = _context.Produtos.AsNoTracking().ToList();
 
-            return produtos;
+                if (produtos == null || produtos.Count == 0)
+                {
+                    return NotFound("Produtos Não Encontrados");
+                }
+
+                return produtos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
+            }
         }
 
-        [HttpGet("{id:int}", Name="obterProduto")]
+        [HttpGet("{id:int}", Name = "obterProduto")]
         public ActionResult<Produto> Get(int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(
-                p => p.ProdutoId == id
-            );
-
-            if (produto is null)
+            try
             {
-                return NotFound("Produto Não Encontrado");
-            }
+                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
 
-            return produto;
+                if (produto == null)
+                {
+                    return NotFound("Produto Não Encontrado");
+                }
+
+                return produto;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
+            }
         }
 
         [HttpPost]
         public ActionResult Post(Produto produto)
         {
-            if(produto is null)
-                return BadRequest();
+            try
+            {
+                if (produto == null)
+                    return BadRequest();
 
-            _context.Produtos.Add(produto);
-            _context.SaveChanges();
+                _context.Produtos.Add(produto);
+                _context.SaveChanges();
 
-            return new CreatedAtRouteResult("obterProduto",
-                new { id = produto.ProdutoId }, produto);
+                return new CreatedAtRouteResult("obterProduto", new { id = produto.ProdutoId }, produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
+            }
         }
 
         [HttpPut("{id:int}")]
         public ActionResult Put(int id, Produto produto)
         {
-            if(id != produto.ProdutoId)
-            { 
-                return BadRequest(); 
+            try
+            {
+                if (id != produto.ProdutoId)
+                {
+                    return BadRequest();
+                }
+
+                _context.Entry(produto).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                return Ok(produto);
             }
-
-            _context.Entry(produto).State = EntityState.Modified;
-            _context.SaveChanges();
-
-            return Ok(produto);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
+            }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(
-                p => p.ProdutoId == id
-            );
-
-            if (produto is null)
+            try
             {
-                return NotFound("Produto Não Encontrado");
+                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+
+                if (produto == null)
+                {
+                    return NotFound("Produto Não Encontrado");
+                }
+
+                _context.Produtos.Remove(produto);
+                _context.SaveChanges();
+
+                return Ok(produto);
             }
-
-            _context.Produtos.Remove(produto);
-            _context.SaveChanges();
-
-            return Ok(produto);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
+            }
         }
     }
 }
