@@ -1,9 +1,13 @@
+using System.Text.Json.Serialization;
 using ef6EssencialNetCore.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+//json - Desserialização | using System.Text.Json.Serialization;
+builder.Services.AddControllers().AddJsonOptions(
+    options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
