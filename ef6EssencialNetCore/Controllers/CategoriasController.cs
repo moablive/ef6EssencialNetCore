@@ -1,10 +1,7 @@
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace ef6EssencialNetCore.Controllers
 {
