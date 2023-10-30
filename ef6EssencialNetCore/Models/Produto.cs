@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ef6EssencialNetCore.Models;
 
@@ -30,5 +31,7 @@ public class Produto
 
     //Relacionamento
     public int CategoriaId { get; set; }
+
+    [JsonIgnore]
     public Categoria? Categoria { get; set; }
 }
