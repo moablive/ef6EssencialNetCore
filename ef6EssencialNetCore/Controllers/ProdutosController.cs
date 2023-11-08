@@ -1,6 +1,7 @@
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace ef6EssencialNetCore.Controllers
@@ -17,18 +18,18 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get()
+        public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
         {
             try
             {
-                var produtos = _context.Produtos.AsNoTracking().ToList();
+                var produtos = _context.Produtos.AsNoTracking().ToListAsync();
 
-                if (produtos == null || produtos.Count == 0)
+                if (produtos == null)
                 {
-                    return NotFound("Produtos Não Encontrados");
+                    return  NotFound("Produtos Não Encontrados");
                 }
 
-                return produtos;
+                return await produtos;
             }
             catch (Exception ex)
             {
@@ -37,18 +38,18 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obterProduto")]
-        public ActionResult<Produto> Get(int id)
+        public async Task<ActionResult<Produto>> GetAsync(int id)
         {
             try
             {
-                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+                var produto = _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
 
                 if (produto == null)
                 {
                     return NotFound("Produto Não Encontrado");
                 }
 
-                return produto;
+                return await produto;
             }
             catch (Exception ex)
             {
