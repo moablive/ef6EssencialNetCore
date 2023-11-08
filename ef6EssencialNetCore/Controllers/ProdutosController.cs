@@ -38,7 +38,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obterProduto")]
-        public async Task<ActionResult<Produto>> GetAsync(int id)
+        public async Task<ActionResult<Produto>> GetAsync([FromQuery]int id)
         {
             try
             {
