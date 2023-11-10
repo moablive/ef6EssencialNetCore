@@ -1,5 +1,6 @@
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Models;
+using ef6EssencialNetCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,13 @@ namespace ef6EssencialNetCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
         }
+        
+        //Servico
+        [HttpGet("saudacao/{nome}")]
+        public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
+        {
+            return meuServico.Saudacao(nome);
+        } 
 
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
