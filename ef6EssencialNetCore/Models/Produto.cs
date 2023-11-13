@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using ef6EssencialNetCore.Validations;
 
 namespace ef6EssencialNetCore.Models;
 
 [Table("Produtos")]
-public class Produto
+public class Produto : IValidatableObject
 {
     [Key]
     public int ProdutoId { get; set; }
 
     [Required]
     [StringLength(80)]
+    [PrimeiraLetraMaiuscula] 
     public string? Nome { get; set; }
 
     [Required]
@@ -34,4 +36,5 @@ public class Produto
 
     [JsonIgnore]
     public Categoria? Categoria { get; set; }
+
 }
