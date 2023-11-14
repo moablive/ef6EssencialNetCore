@@ -21,9 +21,10 @@ namespace ef6EssencialNetCore.Controllers
         [HttpGet("author")]
         public string GetAuthor()
         {
-            var author = _configuration["author "];
+            var author = _configuration["author"];
+            var conexao = _configuration["ConnectionStrings:DefaultConnection"];
 
-            return $"Author : {author}";
+            return $"Author : {author} + conexao {conexao}";
         }
 
         [HttpGet("produtos")]

@@ -6,7 +6,7 @@ using ef6EssencialNetCore.Validations;
 namespace ef6EssencialNetCore.Models;
 
 [Table("Produtos")]
-public class Produto : IValidatableObject
+public class Produto
 {
     [Key]
     public int ProdutoId { get; set; }
