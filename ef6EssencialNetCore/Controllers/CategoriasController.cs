@@ -11,10 +11,19 @@ namespace ef6EssencialNetCore.Controllers
     public class CategoriasController : ControllerBase
     {
         private readonly AppDbContext _context;
-
-        public CategoriasController(AppDbContext context)
+        private readonly IConfiguration _configuration;
+        public CategoriasController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
+        }
+
+        [HttpGet("author")]
+        public string GetAuthor()
+        {
+            var author = _configuration["author "];
+
+            return $"Author : {author}";
         }
 
         [HttpGet("produtos")]
