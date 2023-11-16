@@ -1,7 +1,7 @@
 using ef6EssencialNetCore.Context;
+using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace ef6EssencialNetCore.Controllers
@@ -18,6 +18,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ApiLogginFilter))]
         public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
         {
             try

@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using ef6EssencialNetCore.Context;
+using ef6EssencialNetCore.Filters;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,9 @@ string mysqlConnectio = builder.Configuration.GetConnectionString("DefaultConnec
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseMySql(mysqlConnectio,ServerVersion.AutoDetect(mysqlConnectio)));
 //String DB END
+
+//Filters/ApiLogginFilter
+builder.Services.AddScoped<ApiLogginFilter>();
 
 var app = builder.Build();
 

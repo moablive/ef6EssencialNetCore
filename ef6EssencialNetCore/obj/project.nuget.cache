@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7rAozjOl3MiZnNIwBcXsgQaIQdg/Xr9a/WiGK4eYPEVIRBr5WPaymdIiS/cfmkycE5ZKtkOoPR++mcjmf1qobg==",
+  "dgSpecHash": "61H62Z2r04svUbViNKspTNdpA6irJoUJux8hBgKUIeypPAt0UR21/pDG80sE20pTcv468pW2lMUzJHqYgFxgCw==",
   "success": true,
   "projectFilePath": "C:\\Developer\\CsharpNET\\ef6EssencialNetCore\\ef6EssencialNetCore\\ef6EssencialNetCore.csproj",
   "expectedPackageFiles": [
@@ -32,7 +32,11 @@
     "C:\\Users\\guilh\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\guilh\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\guilh\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
-    "C:\\Users\\guilh\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
+    "C:\\Users\\guilh\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\guilh\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\guilh\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\guilh\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\guilh\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.25\\microsoft.netcore.app.host.win-x64.6.0.25.nupkg.sha512"
   ],
   "logs": []
 }
