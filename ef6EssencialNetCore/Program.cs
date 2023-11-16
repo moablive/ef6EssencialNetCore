@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using ef6EssencialNetCore.Context;
+using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Filters;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,6 @@ builder.Services.AddControllers().AddJsonOptions(
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 //String DB {appsettings.json}
 string mysqlConnectio = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -30,6 +30,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Extensions/ApiExceptionMiddlewareExtensions
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
