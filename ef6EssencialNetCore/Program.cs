@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Filters;
+using ef6EssencialNetCore.Log;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,10 @@ builder.Services.AddDbContext<AppDbContext>(
 
 //Filters/ApiLogginFilter
 builder.Services.AddScoped<ApiLogginFilter>();
+
+//LoggerFactory
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()));
+LogLevel logLevel = LogLevel.Information;
 
 var app = builder.Build();
 

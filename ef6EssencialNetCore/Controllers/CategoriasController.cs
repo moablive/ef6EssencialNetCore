@@ -12,10 +12,12 @@ namespace ef6EssencialNetCore.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
-        public CategoriasController(AppDbContext context, IConfiguration configuration)
+        private readonly ILogger _logger;
+        public CategoriasController(AppDbContext context, IConfiguration configuration, ILogger<CategoriasController> logger)
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet("author")]
@@ -32,6 +34,8 @@ namespace ef6EssencialNetCore.Controllers
         {
             try
             {
+                _logger.LogInformation("=============================GET api/categorias/produtos==============================");
+
                 var categorias = _context.Categorias.Include(c => c.Produtos).ToList();
 
                 if (categorias == null || categorias.Count == 0)
@@ -79,10 +83,12 @@ namespace ef6EssencialNetCore.Controllers
         {
             try
             {
+                _logger.LogInformation($"=============================GET api/categorias/id = {id}==============================");
                 var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
 
                 if (categoria == null)
                 {
+                    _logger.LogInformation($"============ GET api/categorias/id = {id}NOT FOUND =======================");
                     return NotFound("Categoria Não Localizada");
                 }
 
