@@ -3,6 +3,7 @@ using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Log;
+using ef6EssencialNetCore.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +25,13 @@ builder.Services.AddDbContext<AppDbContext>(
 //Filters/ApiLogginFilter
 builder.Services.AddScoped<ApiLogginFilter>();
 
-//LoggerFactory
+//Repository/UnitOfWork
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Configuração do LoggerFactory e do provedor de log personalizado
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()));
 LogLevel logLevel = LogLevel.Information;
+
 
 var app = builder.Build();
 

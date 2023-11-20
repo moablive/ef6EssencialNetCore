@@ -1,8 +1,7 @@
-using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Models;
+using ef6EssencialNetCore.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ef6EssencialNetCore.Controllers
 {
@@ -10,27 +9,33 @@ namespace ef6EssencialNetCore.Controllers
     [Route("[controller]")]
     public class ProdutosController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _uof;
 
-        public ProdutosController(AppDbContext context)
+        public ProdutosController(IUnitOfWork context)
         {
-            _context = context;
+            _uof = context;
         }
+
+        [HttpGet("menorpreco")]
+        public ActionResult<IEnumerable<Produto>> GetProdutosPorPreco()
+        {
+            return _uof.ProdutoRepository.GetProdutosPorPreco().ToList();
+        } 
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLogginFilter))]
-        public async Task<ActionResult<IEnumerable<Produto>>> GetAsync()
+        public ActionResult<IEnumerable<Produto>> Get()
         {
             try
             {
-                var produtos = _context.Produtos.AsNoTracking().ToListAsync();
+                var produtos = _uof.ProdutoRepository.Get().ToList();
 
                 if (produtos == null)
                 {
                     return  NotFound("Produtos Não Encontrados");
                 }
 
-                return await produtos;
+                return produtos;
             }
             catch (Exception ex)
             {
@@ -39,18 +44,20 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obterProduto")]
-        public async Task<ActionResult<Produto>> GetAsync([FromQuery]int id)
+        public ActionResult<Produto> Get([FromQuery]int id)
         {
             try
             {
-                var produto = _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
+                var produto = _uof.ProdutoRepository.GetById(
+                    p => p.ProdutoId == id
+                );
 
                 if (produto == null)
                 {
                     return NotFound("Produto Não Encontrado");
                 }
 
-                return await produto;
+                return produto;
             }
             catch (Exception ex)
             {
@@ -66,8 +73,8 @@ namespace ef6EssencialNetCore.Controllers
                 if (produto == null)
                     return BadRequest();
 
-                _context.Produtos.Add(produto);
-                _context.SaveChanges();
+                _uof.ProdutoRepository.Add(produto);
+                _uof.Commit();
 
                 return new CreatedAtRouteResult("obterProduto", new { id = produto.ProdutoId }, produto);
             }
@@ -87,8 +94,8 @@ namespace ef6EssencialNetCore.Controllers
                     return BadRequest();
                 }
 
-                _context.Entry(produto).State = EntityState.Modified;
-                _context.SaveChanges();
+                _uof.ProdutoRepository.Update(produto);
+                _uof.Commit();
 
                 return Ok(produto);
             }
@@ -103,15 +110,17 @@ namespace ef6EssencialNetCore.Controllers
         {
             try
             {
-                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+                var produto = _uof.ProdutoRepository.GetById(
+                    p => p.ProdutoId == id
+                );
 
                 if (produto == null)
                 {
                     return NotFound("Produto Não Encontrado");
                 }
 
-                _context.Produtos.Remove(produto);
-                _context.SaveChanges();
+                _uof.ProdutoRepository.Delete(produto);
+                _uof.Commit();
 
                 return Ok(produto);
             }
