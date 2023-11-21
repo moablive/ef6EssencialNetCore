@@ -53,3 +53,5 @@ C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.genruntimeconfig.cache
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ref\ef6EssencialNetCore.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.sourcelink.json
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.dll
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

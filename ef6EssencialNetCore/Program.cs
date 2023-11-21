@@ -1,26 +1,29 @@
+//Nuget
+using AutoMapper;
+
+//System
 using System.Text.Json.Serialization;
-using ef6EssencialNetCore.Context;
+
+//Project
+using ef6EssencialNetCore.DTO.Map;
 using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Log;
 using ef6EssencialNetCore.Repository;
-using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 //json - Desserialização | using System.Text.Json.Serialization;
 builder.Services.AddControllers().AddJsonOptions(
-    options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//String DB {appsettings.json}
-string mysqlConnectio = builder.Configuration.GetConnectionString("DefaultConnection");
-
-builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseMySql(mysqlConnectio,ServerVersion.AutoDetect(mysqlConnectio)));
-//String DB END
+// IOC => MySQL
+MySqlConfig.ConfigureDatabase(builder.Services, builder.Configuration);
 
 //Filters/ApiLogginFilter
 builder.Services.AddScoped<ApiLogginFilter>();
@@ -28,10 +31,20 @@ builder.Services.AddScoped<ApiLogginFilter>();
 //Repository/UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+#region DTO
+    var mappingConfig = new MapperConfiguration(mc =>
+    {
+        mc.AddProfile(new MapProfile());
+    });
+
+    IMapper mapper = mappingConfig.CreateMapper();
+    builder.Services.AddSingleton(mapper);
+#endregion
+
+
 // Configuração do LoggerFactory e do provedor de log personalizado
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()));
 LogLevel logLevel = LogLevel.Information;
-
 
 var app = builder.Build();
 
