@@ -1,8 +1,10 @@
-using ef6EssencialNetCore.Context;
+using AutoMapper;
+using ef6EssencialNetCore.DTO;
 using ef6EssencialNetCore.Models;
+using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace ef6EssencialNetCore.Controllers
 {
@@ -10,13 +12,15 @@ namespace ef6EssencialNetCore.Controllers
     [Route("[controller]")]
     public class CategoriasController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _context;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public CategoriasController(AppDbContext context, IConfiguration configuration, ILogger<CategoriasController> logger)
+        public CategoriasController(IUnitOfWork context, IConfiguration configuration, IMapper mapper, ILogger<CategoriasController> logger)
         {
             _context = context;
             _configuration = configuration;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -30,20 +34,21 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("produtos")]
-        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+        public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
         {
             try
             {
                 _logger.LogInformation("=============================GET api/categorias/produtos==============================");
 
-                var categorias = _context.Categorias.Include(c => c.Produtos).ToList();
-
-                if (categorias == null || categorias.Count == 0)
+                var categorias = _context.CategoriaRepository.GetCategoriasProdutos().ToList();
+                var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+            
+                if (categoriasDto == null || categorias.Count == 0)
                 {
                     return NotFound("Categorias de Produtos Não Encontradas");
                 }
 
-                return categorias;
+                return categoriasDto;
             }
             catch (Exception ex)
             {
@@ -59,18 +64,19 @@ namespace ef6EssencialNetCore.Controllers
         } 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Categoria>> Get()
+        public ActionResult<IEnumerable<CategoriaDTO>> Get()
         {
             try
             {
-                var categorias = _context.Categorias.AsNoTracking().ToList();
-
-                if (categorias == null || categorias.Count == 0)
+                var categorias = _context.CategoriaRepository.Get().ToList();
+                var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+            
+                if (categoriasDto == null || categorias.Count == 0)
                 {
                     return NotFound("Categorias Não Encontradas");
                 }
 
-                return categorias;
+                return categoriasDto;
             }
             catch (Exception ex)
             {
@@ -79,12 +85,13 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obterCategoria")]
-        public ActionResult<Categoria> Get(int id)
+        public ActionResult<CategoriaDTO> Get(int id)
         {
             try
             {
                 _logger.LogInformation($"=============================GET api/categorias/id = {id}==============================");
-                var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
+
+                var categoria = _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
                 if (categoria == null)
                 {
@@ -92,7 +99,8 @@ namespace ef6EssencialNetCore.Controllers
                     return NotFound("Categoria Não Localizada");
                 }
 
-                return Ok(categoria);
+                var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+                return Ok(categoriaDto);
             }
             catch (Exception ex)
             {
@@ -101,17 +109,24 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Categoria categoria)
+        public ActionResult Post(CategoriaDTO categoriaDto)
         {
             try
-            {
+            {   
+                var categoria = _mapper.Map<Categoria>(categoriaDto);
+                _context.CategoriaRepository.Add(categoria);
+                
                 if (categoria == null)
+                {
                     return BadRequest();
+                }
 
-                _context.Categorias.Add(categoria);
-                _context.SaveChanges();
+                _context.Commit();
 
-                return new CreatedAtRouteResult("obterCategoria", new { id = categoria.CategoriaId }, categoria);
+                var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
+
+                return new CreatedAtRouteResult("ObterCategoria",
+                    new { id = categoria.CategoriaId }, categoriaDTO);
             }
             catch (Exception ex)
             {
@@ -120,17 +135,19 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Put(int id, Categoria categoria)
+        public IActionResult Put(int id, CategoriaDTO categoriaDto)
         {
             try
             {
-                if (id != categoria.CategoriaId)
+                if (id != categoriaDto.CategoriaId)
                 {
                     return BadRequest();
                 }
 
-                _context.Entry(categoria).State = EntityState.Modified;
-                _context.SaveChanges();
+                var categoria = _mapper.Map<Categoria>(categoriaDto);
+
+                _context.CategoriaRepository.Update(categoria);
+                _context.Commit();
 
                 return Ok(categoria);
             }
@@ -141,21 +158,23 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public ActionResult<CategoriaDTO> Delete(int id)
         {
             try
             {
-                var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
+                var categoria = _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
-                if (categoria == null)
+                if(categoria == null)
                 {
                     return NotFound("Categoria Não Localizada");
                 }
 
-                _context.Categorias.Remove(categoria);
-                _context.SaveChanges();
+                _context.CategoriaRepository.Delete(categoria);
+                _context.Commit();
 
-                return Ok(categoria);
+                var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+
+                return Ok(categoriaDto);
             }
             catch (Exception ex)
             {
