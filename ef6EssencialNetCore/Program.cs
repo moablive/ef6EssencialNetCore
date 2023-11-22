@@ -11,7 +11,6 @@ using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Log;
 using ef6EssencialNetCore.Repository;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 //json - Desserialização | using System.Text.Json.Serialization;
@@ -40,7 +39,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     IMapper mapper = mappingConfig.CreateMapper();
     builder.Services.AddSingleton(mapper);
 #endregion
-
 
 // Configuração do LoggerFactory e do provedor de log personalizado
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()));
