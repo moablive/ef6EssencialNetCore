@@ -1,6 +1,8 @@
+using System.Text.Json;
 using AutoMapper;
 using ef6EssencialNetCore.DTO;
 using ef6EssencialNetCore.Filters;
+using ef6EssencialNetCore.Helpers.Pagination;
 using ef6EssencialNetCore.Models;
 using ef6EssencialNetCore.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -31,12 +33,27 @@ namespace ef6EssencialNetCore.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLogginFilter))]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get()
+        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery]ProdutosParameters produtosParameters) 
         {
             try
             {
-                //Mapeamento
-                var produtos = _uof.ProdutoRepository.Get().ToList();
+                //Mapeamento Tradicional
+                //var produtos = _uof.ProdutoRepository.Get().ToList();
+                
+                //Mapeamento Paginado
+                var produtos = _uof.ProdutoRepository.GetProdutos(produtosParameters);
+
+                var metadata = new
+                {
+                    produtos.TotalCount,
+                    produtos.PageSize,
+                    produtos.CurrentPage,
+                    produtos.TotalPages,
+                    produtos.HasNext,
+                    produtos.HasPrevious
+                };
+
+                Response.Headers.Add("x-Pagination", JsonSerializer.Serialize(metadata));
                 var ProdutoDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
 
                 //Valida se tem item
