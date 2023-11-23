@@ -12,7 +12,7 @@ namespace ef6EssencialNetCore.Repository;
         {
             return PagedList<Produto>.ToPagedList(
                 Get().OrderBy(
-                    p => p.CategoriaId
+                    p => p.ProdutoId
                 ),produtosParameters.PageNumber,produtosParameters.PageSize
             );
         }
