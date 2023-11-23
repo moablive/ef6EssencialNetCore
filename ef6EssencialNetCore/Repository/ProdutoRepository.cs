@@ -8,12 +8,12 @@ namespace ef6EssencialNetCore.Repository;
     {
         public ProdutoRepository(AppDbContext context) : base(context){}
         
-        public PagedList<Produto> GetProdutos(ProdutosParameters produtosParameters)
+        public PagedList<Produto> GetProdutos(ProdutoParameters produtoParameters)
         {
             return PagedList<Produto>.ToPagedList(
                 Get().OrderBy(
                     p => p.ProdutoId
-                ),produtosParameters.PageNumber,produtosParameters.PageSize
+                ),produtoParameters.PageNumber,produtoParameters.PageSize
             );
         }
 

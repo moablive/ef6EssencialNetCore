@@ -1,6 +1,7 @@
+
 namespace ef6EssencialNetCore.Helpers.Pagination;
 
-    public class ProdutosParameters
+    public class QueryStringParameters
     {
         // 50 intens no Maximo
         const int maxPageSize = 50;

@@ -33,15 +33,12 @@ namespace ef6EssencialNetCore.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLogginFilter))]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery]ProdutosParameters produtosParameters) 
+        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery] ProdutoParameters produtoParameters) 
         {
             try
             {
-                //Mapeamento Tradicional
-                //var produtos = _uof.ProdutoRepository.Get().ToList();
-                
                 //Mapeamento Paginado
-                var produtos = _uof.ProdutoRepository.GetProdutos(produtosParameters);
+                var produtos = _uof.ProdutoRepository.GetProdutos(produtoParameters);
 
                 var metadata = new
                 {

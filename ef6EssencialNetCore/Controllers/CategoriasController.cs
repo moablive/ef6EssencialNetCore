@@ -1,5 +1,7 @@
+using System.Text.Json;
 using AutoMapper;
 using ef6EssencialNetCore.DTO;
+using ef6EssencialNetCore.Helpers.Pagination;
 using ef6EssencialNetCore.Models;
 using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Services;
@@ -64,11 +66,23 @@ namespace ef6EssencialNetCore.Controllers
         } 
 
         [HttpGet]
-        public ActionResult<IEnumerable<CategoriaDTO>> Get()
+        public ActionResult<IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriaParameter categoriaParameter)
         {
             try
             {
-                var categorias = _context.CategoriaRepository.Get().ToList();
+                var categorias = _context.CategoriaRepository.GetCategorias(categoriaParameter);
+
+                var metadata = new
+                {
+                    categorias.TotalCount,
+                    categorias.PageSize,
+                    categorias.CurrentPage,
+                    categorias.TotalPages,
+                    categorias.HasNext,
+                    categorias.HasPrevious
+                };
+
+                Response.Headers.Add("x-Pagination", JsonSerializer.Serialize(metadata));
                 var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
             
                 if (categoriasDto == null || categorias.Count == 0)
