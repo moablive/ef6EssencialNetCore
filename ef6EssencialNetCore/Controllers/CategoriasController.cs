@@ -52,7 +52,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return categoriasDto;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -92,7 +92,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return categoriasDto;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -116,7 +116,7 @@ namespace ef6EssencialNetCore.Controllers
                 var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
                 return Ok(categoriaDto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -142,7 +142,7 @@ namespace ef6EssencialNetCore.Controllers
                 return new CreatedAtRouteResult("ObterCategoria",
                     new { id = categoria.CategoriaId }, categoriaDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -165,7 +165,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return Ok(categoria);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -190,7 +190,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return Ok(categoriaDto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }

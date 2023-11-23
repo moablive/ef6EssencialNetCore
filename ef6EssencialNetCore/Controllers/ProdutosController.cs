@@ -62,7 +62,7 @@ namespace ef6EssencialNetCore.Controllers
                 //Retorna o item
                 return ProdutoDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {   
                 //mensagem de erro
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
@@ -86,7 +86,7 @@ namespace ef6EssencialNetCore.Controllers
                 var ProdutoDTO = _mapper.Map<ProdutoDTO>(produto);
                 return ProdutoDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -108,7 +108,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return new CreatedAtRouteResult("obterProduto", new { id = produto.ProdutoId }, produtoDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -129,7 +129,7 @@ namespace ef6EssencialNetCore.Controllers
 
                 return Ok(produto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
@@ -155,7 +155,7 @@ namespace ef6EssencialNetCore.Controllers
                 var produtoDto = _mapper.Map<ProdutoDTO>(produto);
                 return Ok(produtoDto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
