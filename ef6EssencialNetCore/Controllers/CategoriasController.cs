@@ -26,6 +26,7 @@ namespace ef6EssencialNetCore.Controllers
             _logger = logger;
         }
 
+        //_configuration
         [HttpGet("author")]
         public string GetAuthor()
         {
@@ -35,17 +36,24 @@ namespace ef6EssencialNetCore.Controllers
             return $"Author : {author} + conexao {conexao}";
         }
 
+        //Servico
+        [HttpGet("saudacao/{nome}")]
+        public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
+        {
+            return meuServico.Saudacao(nome);
+        } 
+
         [HttpGet("produtos")]
-        public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
         {
             try
             {
                 _logger.LogInformation("=============================GET api/categorias/produtos==============================");
 
-                var categorias = _context.CategoriaRepository.GetCategoriasProdutos().ToList();
+                var categorias = await _context.CategoriaRepository.GetCategoriasProdutos();
                 var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
             
-                if (categoriasDto == null || categorias.Count == 0)
+                if (categoriasDto == null)
                 {
                     return NotFound("Categorias de Produtos Não Encontradas");
                 }
@@ -57,20 +65,14 @@ namespace ef6EssencialNetCore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
         }
-        
-        //Servico
-        [HttpGet("saudacao/{nome}")]
-        public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
-        {
-            return meuServico.Saudacao(nome);
-        } 
-
+    
         [HttpGet]
-        public ActionResult<IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriaParameter categoriaParameter)
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get([FromQuery] CategoriaParameter categoriaParameter)
         {
             try
             {
-                var categorias = _context.CategoriaRepository.GetCategorias(categoriaParameter);
+                //Mapeamento Paginado
+                var categorias = await _context.CategoriaRepository.GetCategorias(categoriaParameter);
 
                 var metadata = new
                 {
@@ -84,8 +86,9 @@ namespace ef6EssencialNetCore.Controllers
 
                 Response.Headers.Add("x-Pagination", JsonSerializer.Serialize(metadata));
                 var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
-            
-                if (categoriasDto == null || categorias.Count == 0)
+
+                
+                if (categoriasDto == null)
                 {
                     return NotFound("Categorias Não Encontradas");
                 }
@@ -99,13 +102,13 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpGet("{id:int}", Name = "obterCategoria")]
-        public ActionResult<CategoriaDTO> Get(int id)
+        public async Task<ActionResult<CategoriaDTO>> Get(int id)
         {
             try
             {
                 _logger.LogInformation($"=============================GET api/categorias/id = {id}==============================");
 
-                var categoria = _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
+                var categoria = await _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
                 if (categoria == null)
                 {
@@ -123,7 +126,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(CategoriaDTO categoriaDto)
+        public async Task<ActionResult> Post(CategoriaDTO categoriaDto)
         {
             try
             {   
@@ -135,7 +138,7 @@ namespace ef6EssencialNetCore.Controllers
                     return BadRequest();
                 }
 
-                _context.Commit();
+                await _context.Commit();
 
                 var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
 
@@ -149,7 +152,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Put(int id, CategoriaDTO categoriaDto)
+        public async Task<IActionResult> Put(int id, CategoriaDTO categoriaDto)
         {
             try
             {
@@ -161,7 +164,7 @@ namespace ef6EssencialNetCore.Controllers
                 var categoria = _mapper.Map<Categoria>(categoriaDto);
 
                 _context.CategoriaRepository.Update(categoria);
-                _context.Commit();
+                await _context.Commit();
 
                 return Ok(categoria);
             }
@@ -172,11 +175,11 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<CategoriaDTO> Delete(int id)
+        public async Task<ActionResult<CategoriaDTO>> Delete(int id)
         {
             try
             {
-                var categoria = _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
+                var categoria = await _context.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
                 if(categoria == null)
                 {
@@ -184,7 +187,7 @@ namespace ef6EssencialNetCore.Controllers
                 }
 
                 _context.CategoriaRepository.Delete(categoria);
-                _context.Commit();
+                await _context.Commit();
 
                 var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
 

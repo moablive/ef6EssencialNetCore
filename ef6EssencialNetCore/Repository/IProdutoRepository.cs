@@ -5,6 +5,6 @@ namespace ef6EssencialNetCore.Repository;
 
     public interface IProdutoRepository : IRepository<Produto>
     {
-        PagedList<Produto> GetProdutos(ProdutoParameters produtoParameters);
-        IEnumerable<Produto> GetProdutosPorPreco();
+        Task<PagedList<Produto>> GetProdutos(ProdutoParameters produtoParameters);
+        Task<IEnumerable<Produto>> GetProdutosPorPreco();
     }

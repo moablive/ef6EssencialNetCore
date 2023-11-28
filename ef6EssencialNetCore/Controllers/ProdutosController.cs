@@ -13,19 +13,19 @@ namespace ef6EssencialNetCore.Controllers
     [Route("[controller]")]
     public class ProdutosController : ControllerBase
     {
-        private readonly IUnitOfWork _uof;
+        private readonly IUnitOfWork _context;
         private readonly IMapper _mapper;
 
         public ProdutosController(IUnitOfWork context, IMapper mapper)
         {
-            _uof = context;
+            _context = context;
             _mapper = mapper;
         }
 
         [HttpGet("menorpreco")]
         public ActionResult<IEnumerable<ProdutoDTO>> GetProdutosPorPreco()
         {
-            var produtos = _uof.ProdutoRepository.GetProdutosPorPreco().ToList();
+            var produtos = _context.ProdutoRepository.GetProdutosPorPreco();
             var ProdutoDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
 
             return ProdutoDTO;
@@ -33,12 +33,12 @@ namespace ef6EssencialNetCore.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLogginFilter))]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery] ProdutoParameters produtoParameters) 
+        public async Task<ActionResult<IEnumerable<ProdutoDTO>>> Get([FromQuery] ProdutoParameters produtoParameters) 
         {
             try
             {
                 //Mapeamento Paginado
-                var produtos = _uof.ProdutoRepository.GetProdutos(produtoParameters);
+                var produtos = await _context.ProdutoRepository.GetProdutos(produtoParameters);
 
                 var metadata = new
                 {
@@ -53,28 +53,25 @@ namespace ef6EssencialNetCore.Controllers
                 Response.Headers.Add("x-Pagination", JsonSerializer.Serialize(metadata));
                 var ProdutoDTO = _mapper.Map<List<ProdutoDTO>>(produtos);
 
-                //Valida se tem item
                 if (ProdutoDTO == null)
                 {
                     return  NotFound("Produtos Não Encontrados");
                 }
 
-                //Retorna o item
                 return ProdutoDTO;
             }
             catch (Exception)
             {   
-                //mensagem de erro
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao Tratar a sua Solicitação. Favor tentar novamente mais tarde");
             }
         }
 
         [HttpGet("{id:int}", Name = "obterProduto")]
-        public ActionResult<ProdutoDTO> Get([FromQuery]int id)
+        public async Task<ActionResult<ProdutoDTO>> Get([FromQuery]int id)
         {
             try
             {
-                var produto = _uof.ProdutoRepository.GetById(
+                var produto = await _context.ProdutoRepository.GetById(
                     p => p.ProdutoId == id
                 );
 
@@ -93,7 +90,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(ProdutoDTO produtoDto)
+        public async Task<ActionResult> Post(ProdutoDTO produtoDto)
         {
             try
             {   var produto = _mapper.Map<Produto>(produtoDto);
@@ -101,8 +98,8 @@ namespace ef6EssencialNetCore.Controllers
                 if (produto == null)
                     return BadRequest();
 
-                _uof.ProdutoRepository.Add(produto);
-                _uof.Commit(); 
+                _context.ProdutoRepository.Add(produto);
+                await _context.Commit(); 
 
                 var produtoDTO = _mapper.Map<ProdutoDTO>(produto);
 
@@ -115,7 +112,7 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, ProdutoDTO produtoDto)
+        public async Task<ActionResult> Put(int id, ProdutoDTO produtoDto)
         {
             try
             {
@@ -124,8 +121,8 @@ namespace ef6EssencialNetCore.Controllers
 
                 var produto = _mapper.Map<Produto>(produtoDto);
 
-                _uof.ProdutoRepository.Update(produto);
-                _uof.Commit();
+                _context.ProdutoRepository.Update(produto);
+                await _context.Commit();
 
                 return Ok(produto);
             }
@@ -136,11 +133,11 @@ namespace ef6EssencialNetCore.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<ProdutoDTO> Delete(int id)
+        public async Task<ActionResult<ProdutoDTO>> Delete(int id)
         {
             try
             {
-                var produto = _uof.ProdutoRepository.GetById(
+                var produto = await _context.ProdutoRepository.GetById(
                     p => p.ProdutoId == id
                 );
 
@@ -149,8 +146,8 @@ namespace ef6EssencialNetCore.Controllers
                     return NotFound("Produto Não Encontrado");
                 }
 
-                _uof.ProdutoRepository.Delete(produto);
-                _uof.Commit();
+                _context.ProdutoRepository.Delete(produto);
+                await _context.Commit();
 
                 var produtoDto = _mapper.Map<ProdutoDTO>(produto);
                 return Ok(produtoDto);

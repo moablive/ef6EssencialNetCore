@@ -1,6 +1,7 @@
 using ef6EssencialNetCore.Context;
 using ef6EssencialNetCore.Helpers.Pagination;
 using ef6EssencialNetCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ef6EssencialNetCore.Repository;
 
@@ -8,19 +9,19 @@ namespace ef6EssencialNetCore.Repository;
     {
         public ProdutoRepository(AppDbContext context) : base(context){}
         
-        public PagedList<Produto> GetProdutos(ProdutoParameters produtoParameters)
+        public async Task<PagedList<Produto>> GetProdutos(ProdutoParameters produtoParameters)
         {
-            return PagedList<Produto>.ToPagedList(
-                Get().OrderBy(
-                    p => p.ProdutoId
-                ),produtoParameters.PageNumber,produtoParameters.PageSize
-            );
+            return await PagedList<Produto>.ToPagedList(
+                    Get().OrderBy(p => p.ProdutoId),
+                    produtoParameters.PageNumber,
+                    produtoParameters.PageSize
+                );   
         }
 
-        public IEnumerable<Produto> GetProdutosPorPreco()
+        public async Task<IEnumerable<Produto>> GetProdutosPorPreco()
         {
-            return Get().OrderBy (
+            return await Get().OrderBy (
                 p => p.Preco
-            ).ToList();
+            ).ToListAsync();
         }
     }

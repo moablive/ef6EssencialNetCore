@@ -9,19 +9,19 @@ namespace ef6EssencialNetCore.Repository;
     {
         public CategoriaRepository(AppDbContext context) : base(context){}
 
-        public PagedList<Categoria> GetCategorias(CategoriaParameter categoriaParameter)
+        public async Task<PagedList<Categoria>> GetCategorias(CategoriaParameter categoriaParameter)
         {
-            return PagedList<Categoria>.ToPagedList(
-                Get().OrderBy(
-                    c => c.Nome
-                ),categoriaParameter.PageNumber,categoriaParameter.PageSize
-            );
+            return await PagedList<Categoria>.ToPagedList(
+                    Get().OrderBy(c => c.Nome),
+                    categoriaParameter.PageNumber,
+                    categoriaParameter.PageSize
+                );
         }
-
-        public IEnumerable<Categoria> GetCategoriasProdutos()
+        
+        public async Task<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            return Get().Include(
+            return await Get().Include(
                 c => c.Produtos
-            );
+            ).ToListAsync();
         }
     }

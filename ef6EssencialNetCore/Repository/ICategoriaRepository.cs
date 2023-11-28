@@ -5,6 +5,6 @@ namespace ef6EssencialNetCore.Repository;
 
     public interface ICategoriaRepository : IRepository<Categoria>
     {   
-        PagedList<Categoria> GetCategorias(CategoriaParameter categoriaParameter);
-        IEnumerable<Categoria> GetCategoriasProdutos();
+        Task<PagedList<Categoria>> GetCategorias(CategoriaParameter categoriaParameter);
+        Task<IEnumerable<Categoria>> GetCategoriasProdutos();
     }

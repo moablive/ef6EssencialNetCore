@@ -31,9 +31,9 @@ namespace ef6EssencialNetCore.Repository;
             }
         }
 
-        public void Commit()
+        public async Task Commit()
         {
-            _Context.SaveChanges();
+            await _Context.SaveChangesAsync();
         }
 
         public void Dispose()
