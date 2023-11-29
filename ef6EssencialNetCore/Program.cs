@@ -1,15 +1,13 @@
-//Nuget
-using AutoMapper;
-
 //System
 using System.Text.Json.Serialization;
 
 //Project
 using ef6EssencialNetCore.DTO.Map;
 using ef6EssencialNetCore.Extensions;
-using ef6EssencialNetCore.Filters;
-using ef6EssencialNetCore.Log;
 using ef6EssencialNetCore.Repository;
+using ef6EssencialNetCore.Identity;
+using ef6EssencialNetCore.Log;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,25 +22,17 @@ builder.Services.AddSwaggerGen();
 // IOC => MySQL
 MySqlConfig.ConfigureDatabase(builder.Services, builder.Configuration);
 
-//Filters/ApiLogginFilter
-builder.Services.AddScoped<ApiLogginFilter>();
-
-//Repository/UnitOfWork
+//Repository/UnitOfWork  || VALIDAR O USO DE IOC
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-#region DTO
-    var mappingConfig = new MapperConfiguration(mc =>
-    {
-        mc.AddProfile(new MapProfile());
-    });
+// IOC IdentityConfiguration (USER | JWT)
+IdentityConfiguration.ConfigureIdentity(builder.Services);
 
-    IMapper mapper = mappingConfig.CreateMapper();
-    builder.Services.AddSingleton(mapper);
-#endregion
+// IOC MappingService (DTO)
+builder.Services.AddMapping();
 
-// Configuração do LoggerFactory e do provedor de log personalizado
-builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()));
-LogLevel logLevel = LogLevel.Information;
+// IOC  LogConfiguration
+LogConfiguration.ConfigureLogging(builder.Services); 
 
 var app = builder.Build();
 
@@ -56,6 +46,10 @@ if (app.Environment.IsDevelopment())
 app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
+
+//Middleware | UseAuthentication => UseAuthorization 
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();

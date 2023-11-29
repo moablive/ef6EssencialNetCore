@@ -5,7 +5,10 @@ C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\ef6EssencialNetCore.runtimeconfig.json
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\ef6EssencialNetCore.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\ef6EssencialNetCore.pdb
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.dll
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\Humanizer.dll
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
@@ -38,6 +41,7 @@ C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.csproj.CoreCompileInputs.cache
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.MvcApplicationPartsAssemblyInfo.cs
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.MvcApplicationPartsAssemblyInfo.cache
+C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.sourcelink.json
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\staticwebassets.build.json
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\staticwebassets.development.json
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\staticwebassets\msbuild.ef6EssencialNetCore.Microsoft.AspNetCore.StaticWebAssets.props
@@ -52,6 +56,3 @@ C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.pdb
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.genruntimeconfig.cache
 C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ref\ef6EssencialNetCore.dll
-C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\obj\Debug\net6.0\ef6EssencialNetCore.sourcelink.json
-C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.dll
-C:\Developer\CsharpNET\ef6EssencialNetCore\ef6EssencialNetCore\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
