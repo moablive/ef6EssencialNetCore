@@ -8,7 +8,6 @@ using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Identity;
 using ef6EssencialNetCore.Log;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 //json - Desserialização | using System.Text.Json.Serialization;
@@ -22,7 +21,7 @@ builder.Services.AddSwaggerGen();
 // IOC => MySQL
 MySqlConfig.ConfigureDatabase(builder.Services, builder.Configuration);
 
-//Repository/UnitOfWork  || VALIDAR O USO DE IOC
+//Repository/UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // IOC IdentityConfiguration (USER | JWT)
