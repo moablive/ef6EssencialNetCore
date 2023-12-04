@@ -1,16 +1,25 @@
+//System
 using System.Text.Json;
+
+//External
 using AutoMapper;
+
+//Project
 using ef6EssencialNetCore.DTO;
 using ef6EssencialNetCore.Filters;
 using ef6EssencialNetCore.Helpers.Pagination;
 using ef6EssencialNetCore.Models;
 using ef6EssencialNetCore.Repository;
+
+//Microsoft
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ef6EssencialNetCore.Controllers
-{
+{   
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class ProdutosController : ControllerBase
     {
         private readonly IUnitOfWork _context;

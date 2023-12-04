@@ -1,17 +1,26 @@
+//System
 using System.Text.Json;
+
+//External
 using AutoMapper;
+
+//Project
 using ef6EssencialNetCore.DTO;
 using ef6EssencialNetCore.Helpers.Pagination;
 using ef6EssencialNetCore.Models;
 using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Services;
+
+//Microsoft
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace ef6EssencialNetCore.Controllers
-{
+{   
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class CategoriasController : ControllerBase
     {
         private readonly IUnitOfWork _context;
