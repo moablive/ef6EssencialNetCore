@@ -11,7 +11,9 @@ using ef6EssencialNetCore.DTO.Map;
 using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Identity;
-using ef6EssencialNetCore.Log;
+
+//VERIFICAR LOG
+//using ef6EssencialNetCore.Filters;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddMapping();
 
 // IOC  LogConfiguration
-LogConfiguration.ConfigureLogging(builder.Services); 
+//LogConfiguration.ConfigureLogging(builder.Services); 
 
 var app = builder.Build();
 

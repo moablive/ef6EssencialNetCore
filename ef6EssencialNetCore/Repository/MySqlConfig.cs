@@ -5,18 +5,25 @@ namespace ef6EssencialNetCore.Repository;
 
     public static class MySqlConfig
     {
-        public static void ConfigureDatabase(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureDatabase(
+            IServiceCollection services, 
+            IConfiguration configuration
+        )
         {
+            string dockerConnection = configuration.GetConnectionString("DockerConnection");
+            string defaultConnection = configuration.GetConnectionString("DefaultConnection");
+
             try
             {
-                string mysqlConnection = configuration.GetConnectionString("DefaultConnection");
+                // Try to use the Docker connection
                 services.AddDbContext<AppDbContext>(options =>
-                    options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection)));
+                    options.UseMySql(dockerConnection, ServerVersion.AutoDetect(dockerConnection)));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Erro ao configurar o banco de dados MySQL: {ex}");
-                throw;
+                // If the Docker connection fails, use the default connection
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseMySql(defaultConnection, ServerVersion.AutoDetect(defaultConnection)));
             }
         }
     }
