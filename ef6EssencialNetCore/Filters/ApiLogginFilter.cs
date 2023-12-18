@@ -5,10 +5,12 @@ namespace ef6EssencialNetCore.Filters;
     public class ApiLogginFilter : IActionFilter
     {
         private readonly ILogger<ApiLogginFilter> _logger;
+        
         public ApiLogginFilter(ILogger<ApiLogginFilter> logger)
         {
             _logger = logger;
         }
+
         public void OnActionExecuting(ActionExecutingContext context)
         {
             _logger.LogInformation("## EXECUTANDO -> OnActionExecuting");

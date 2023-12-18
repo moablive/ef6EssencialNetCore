@@ -14,12 +14,13 @@ using ef6EssencialNetCore.Repository;
 //Microsoft
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ef6EssencialNetCore.Controllers
 {   
-    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProdutosController : ControllerBase
     {
         private readonly IUnitOfWork _context;

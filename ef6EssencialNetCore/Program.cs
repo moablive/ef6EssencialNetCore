@@ -1,5 +1,6 @@
 //External
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 //System
 using System.Text;
@@ -11,9 +12,7 @@ using ef6EssencialNetCore.DTO.Map;
 using ef6EssencialNetCore.Extensions;
 using ef6EssencialNetCore.Repository;
 using ef6EssencialNetCore.Identity;
-
-//VERIFICAR LOG
-//using ef6EssencialNetCore.Filters;
+using ef6EssencialNetCore.Filters;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +23,39 @@ builder.Services.AddControllers().AddJsonOptions(
 );
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//JWT UI AddSwaggerGen
+builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "ef6EssencialNetCore", Version = "v1" });
+
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "Header de autorização JWT o esquema Bearer."
+        });
+
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {   
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        });
+    }
+);
+
 
 // IOC => MySQL
 MySqlConfig.ConfigureDatabase(builder.Services, builder.Configuration);
@@ -57,7 +88,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddMapping();
 
 // IOC  LogConfiguration
-//LogConfiguration.ConfigureLogging(builder.Services); 
+builder.Services.AddScoped<ApiLogginFilter>();
 
 var app = builder.Build();
 
