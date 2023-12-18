@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(c =>
             Scheme = "Bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description = "Header de autorização JWT o esquema Bearer."
+            Description = "Header de autorização JWT o esquema DIGITE: Bearer TOKEN."
         });
 
         c.AddSecurityRequirement(new OpenApiSecurityRequirement
