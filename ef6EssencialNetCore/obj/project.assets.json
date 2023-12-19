@@ -2073,19 +2073,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\guilherme.bonato\\.nuget\\packages\\": {}
+    "C:\\Users\\guilh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Developer\\cSharp\\ef6EssencialNetCore\\ef6EssencialNetCore\\ef6EssencialNetCore.csproj",
+      "projectUniqueName": "c:\\Developer\\CsharpNET\\ef6EssencialNetCore\\ef6EssencialNetCore\\ef6EssencialNetCore.csproj",
       "projectName": "ef6EssencialNetCore",
-      "projectPath": "C:\\Developer\\cSharp\\ef6EssencialNetCore\\ef6EssencialNetCore\\ef6EssencialNetCore.csproj",
-      "packagesPath": "C:\\Users\\guilherme.bonato\\.nuget\\packages\\",
-      "outputPath": "C:\\Developer\\cSharp\\ef6EssencialNetCore\\ef6EssencialNetCore\\obj\\",
+      "projectPath": "c:\\Developer\\CsharpNET\\ef6EssencialNetCore\\ef6EssencialNetCore\\ef6EssencialNetCore.csproj",
+      "packagesPath": "C:\\Users\\guilh\\.nuget\\packages\\",
+      "outputPath": "c:\\Developer\\CsharpNET\\ef6EssencialNetCore\\ef6EssencialNetCore\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\guilherme.bonato\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\guilh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2157,6 +2162,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.25, 6.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
