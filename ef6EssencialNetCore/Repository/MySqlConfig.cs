@@ -3,27 +3,26 @@ using ef6EssencialNetCore.Context;
 
 namespace ef6EssencialNetCore.Repository; 
 
-    public static class MySqlConfig
+public static class MySqlConfig
+{
+    public static void ConfigureDatabase(
+        IServiceCollection services, 
+        IConfiguration configuration,
+        string databaseConnection
+    )
     {
-        public static void ConfigureDatabase(
-            IServiceCollection services, 
-            IConfiguration configuration
-        )
+        try
         {
-            string dockerConnection = configuration.GetConnectionString("DockerConnection");
+            // Try to use the passed database connection
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseMySql(databaseConnection, ServerVersion.AutoDetect(databaseConnection)));
+        }
+        catch (Exception)
+        {
+            // If the passed database connection fails, use the default connection
             string defaultConnection = configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                // Try to use the Docker connection
-                services.AddDbContext<AppDbContext>(options =>
-                    options.UseMySql(dockerConnection, ServerVersion.AutoDetect(dockerConnection)));
-            }
-            catch (Exception)
-            {
-                // If the Docker connection fails, use the default connection
-                services.AddDbContext<AppDbContext>(options =>
-                    options.UseMySql(defaultConnection, ServerVersion.AutoDetect(defaultConnection)));
-            }
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseMySql(defaultConnection, ServerVersion.AutoDetect(defaultConnection)));
         }
     }
+}
