@@ -1,4 +1,4 @@
-# Nome do Projeto (Substitua este título) - Template Base
+# Nome do Projeto ef6EssencialNetCore - Template Base
 
 Este projeto serve como um template base para [descreva o tipo de aplicação, ex: APIs RESTful, aplicações web] utilizando [principais tecnologias, ex: .NET Core, Node.js]. Ele inclui configurações para autenticação JWT, migrations de banco de dados, e o padrão Repository.
 
